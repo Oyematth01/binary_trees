@@ -1,36 +1,34 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "binary_trees.h"
 
-/* Function to create a new node */
-binary_tree_t *binary_tree_node(binary_tree_t *parent, int value)
-{
-    binary_tree_t *new_node = malloc(sizeof(binary_tree_t));
-    if (new_node == NULL)
-        return (NULL);
-    new_node->n = value;
-    new_node->parent = parent;
-    new_node->left = NULL;
-    new_node->right = NULL;
-    return (new_node);
-}
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
+void binary_tree_print(const binary_tree_t *);
 
-/* Main function to test the BST check function */
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
 int main(void)
 {
-    binary_tree_t *root = binary_tree_node(NULL, 10);
-    root->left = binary_tree_node(root, 5);
-    root->right = binary_tree_node(root, 20);
-    root->left->left = binary_tree_node(root->left, 3);
-    root->left->right = binary_tree_node(root->left, 7);
-    root->right->left = binary_tree_node(root->right, 15);
-    root->right->right = binary_tree_node(root->right, 25);
+    binary_tree_t *root;
+    int bst;
 
-    printf("Is the tree a valid BST? %d\n", binary_tree_is_bst(root));
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 128);
+    root->left->right = binary_tree_node(root->left, 54);
+    root->right->right = binary_tree_node(root->right, 402);
+    root->left->left = binary_tree_node(root->left, 10);
 
-    /* Create an invalid BST */
-    root->right->left->n = 5;
-    printf("Is the tree a valid BST? %d\n", binary_tree_is_bst(root));
+    binary_tree_print(root);
+    bst = binary_tree_is_bst(root);
+    printf("Is %d a BST: %d\n", root->n, bst);
+
+    root->left->right->right = binary_tree_node(root->left->right, 130);
+    binary_tree_print(root);
+    bst = binary_tree_is_bst(root);
+    printf("Is %d a BST: %d\n", root->n, bst);
 
     return (0);
 }
